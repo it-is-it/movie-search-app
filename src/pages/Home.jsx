@@ -1,6 +1,7 @@
 import SearchBar from "../components/SearchBar";
 import MovieList from "../components/MovieList";
 import FavoritesList from "../components/FavoritesList";
+import Spinner from "../components/Spinner";
 import { useState, useContext } from "react";
 import { FavoritesContext } from "../context/FavoritesContext";
 
@@ -11,7 +12,7 @@ function Home() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const { favorites, addFavorite, removeFavorite, isFavorite } = useContext(FavoritesContext);
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
@@ -37,35 +38,45 @@ function Home() {
     }
   };
 
-  const toggleFavorite = (movie) => {
-    if (isFavorite(movie.imdbID)) {
-      removeFavorite(movie.imdbID);
-    } else {
-      addFavorite(movie);
-    }
-  };
-
   return (
     <div className="p-4 max-w-7xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">🎬 Movie Search & Favorites</h1>
-      <SearchBar
-        searchTerm={searchTerm}
-        onSearchChange={handleSearchChange}
-        onSearchSubmit={handleSearchSubmit}
-      />
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      {movies.length > 0 && (
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Search Results</h2>
-          <MovieList
-            movies={movies}
-            favorites={favorites}
-            onToggleFavorite={toggleFavorite}
+      <div className="flex space-x-2 mb-4">
+        <button
+          onClick={() => setShowFavoritesOnly(false)}
+          className={`px-4 py-2 rounded ${
+            !showFavoritesOnly ? "bg-blue-500 text-white" : "bg-gray-200"
+          }`}
+        >
+          Search Results
+        </button>
+        <button
+          onClick={() => setShowFavoritesOnly(true)}
+          className={`px-4 py-2 rounded ${
+            showFavoritesOnly ? "bg-blue-500 text-white" : "bg-gray-200"
+          }`}
+        >
+          Favorites
+        </button>
+      </div>
+      {!showFavoritesOnly && (
+        <>
+          <SearchBar
+            searchTerm={searchTerm}
+            onSearchChange={handleSearchChange}
+            onSearchSubmit={handleSearchSubmit}
           />
-        </div>
+          {loading && <Spinner />}
+          {error && <p className="text-red-500">{error}</p>}
+          {movies.length > 0 && (
+            <div>
+              <h2 className="text-xl font-semibold mb-2">Search Results</h2>
+              <MovieList movies={movies} />
+            </div>
+          )}
+        </>
       )}
-      <FavoritesList favorites={favorites} onToggleFavorite={toggleFavorite} />
+      {showFavoritesOnly && <FavoritesList />}
     </div>
   );
 }

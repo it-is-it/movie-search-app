@@ -1,17 +1,17 @@
-# User List Management App 🧑‍💼
+# Movie Search & Favorites App 🎬
 
-A React-based user management system built using **Ant Design** for UI components and styled with **Tailwind CSS**. Developed as part of the **Front-End Developer Assessment** by Leo Club of Kathmandu Marigold under the CareerBridge Internship/Mentorship Campaign.
+A React-based movie search and favorites system built using **Ant Design** for UI components and styled with **Tailwind CSS**. Developed as part of the **Front-End Developer Assessment** by Leo Club of Kathmandu Marigold under the CareerBridge Internship/Mentorship Campaign.
 
 ## 🔗 Live Demo
 
-[Click here to view the live app](https://user-list-management-app.vercel.app/)
+[Click here to view the live app](https://movie-search-app.vercel.app/)
 
 ---
 
 ## ✨ Features
 
-- 📋 Display a list of all users in a responsive table
-- 🟢 Color-coded user types (Admin User / System User)
+- 📋 Display a list of all movies in a responsive table
+- 🟢 Color-coded movie types (Admin User / System User)
 - 🔍 View user details in a read-only form
 - ✏️ Edit and update user details
 - ➕ Create new users with validation
@@ -24,45 +24,32 @@ A React-based user management system built using **Ant Design** for UI component
 ## 🛠️ Tech Stack
 
 - **Frontend Framework:** React
-- **Component Library:** Ant Design
-- **Styling:** Tailwind CSS or Bootstrap (choose one)
-- **Routing:** React Router DOM
+- **Styling:** Tailwind CSS
 
 ---
 
 ## 🧑‍💻 User Schema
 
-Each user profile includes:
+Each movie profile includes:
 
-| Field        | Type   | Description                         |
-| ------------ | ------ | ----------------------------------- |
-| `id`         | Number | Auto-generated unique ID            |
-| `firstName`  | String | User's first name                   |
-| `lastName`   | String | User's last name                    |
-| `userName`   | String | Unique user name                    |
-| `userType`   | Enum   | Admin User / System User            |
-| `department` | Enum   | Frontend / Backend / QA / Marketing |
+| Field      | Type   | Description                                |
+| ---------- | ------ | ------------------------------------------ |
+| `id`       | Number | Auto-generated unique ID                   |
+| `title`    | String | Movie's title                              |
+| `year`     | String | Movie's year                               |
+| `director` | String | Movie's director                           |
+| `genre`    | Enum   | Action / Comedy / Drama / Horror / Romance |
 
 ---
 
 ## 📂 Pages & Routes
 
-| Route            | Description                      |
-| ---------------- | -------------------------------- |
-| `/`              | User list with table and actions |
-| `/user/create`   | Form to create a new user        |
-| `/user/view/:id` | Read-only user details           |
-| `/user/edit/:id` | Editable user details and update |
-
----
-
-## 📸 Screenshots
-
-![User List Screenshot](./public/screenshot-1.png)  
-![Create New User Screenshot](./public/screenshot-2.png)  
-![View User Details Screenshot](./public/screenshot-3.png)  
-![Edit User Details Screenshot](./public/screenshot-4.png)  
-![Delete User Screenshot](./public/screenshot-5.png)
+| Route             | Description                       |
+| ----------------- | --------------------------------- |
+| `/`               | Movie list with table and actions |
+| `/movie/create`   | Form to create a new movie        |
+| `/movie/view/:id` | Read-only movie details           |
+| `/movie/edit/:id` | Editable movie details and update |
 
 ---
 
@@ -76,8 +63,8 @@ Each user profile includes:
 ### Installation
 
 ```bash
-git clone https://github.com/it-is-it/user-list-management-app.git
-cd user-list-management-app
+git clone https://github.com/it-is-it/movie-search-app.git
+cd movie-search-app
 npm install
 npm start
 ```
@@ -87,7 +74,7 @@ npm start
 ## 📁 Project Structure (Sample)
 
 ```
-user-list-management-app/
+movie-search-app/
 ├── public/
 │   ├── screenshots/
 │   └── index.html
@@ -102,21 +89,5 @@ user-list-management-app/
 ├── package.json
 └── README.md
 ```
-
----
-
-## 📬 Submission Details
-
-- 🔗 [GitHub Repository](https://github.com/it-is-it/user-list-management-app)
-- 📄 Submitted to: Leo Club of Kathmandu Marigold
-- 🧠 Focus: Code structure, problem-solving, form validation, UI design
-
----
-
-## 📃 License
-
-This project is for educational and assessment purposes only.
-
----
 
 ### 👨‍💻 Developed by: Ishwor Timalsina

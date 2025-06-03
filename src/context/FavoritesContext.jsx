@@ -24,9 +24,23 @@ export function FavoritesProvider({ children }) {
 
   const isFavorite = (imdbID) => favorites.some((fav) => fav.imdbID === imdbID);
 
+  const toggleFavorite = (movie) => {
+    if (isFavorite(movie.imdbID)) {
+      removeFavorite(movie.imdbID);
+    } else {
+      addFavorite(movie);
+    }
+  };
+
   return (
     <FavoritesContext.Provider
-      value={{ favorites, addFavorite, removeFavorite, isFavorite }}
+      value={{
+        favorites,
+        addFavorite,
+        removeFavorite,
+        isFavorite,
+        toggleFavorite,
+      }}
     >
       {children}
     </FavoritesContext.Provider>
