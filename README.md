@@ -6,7 +6,7 @@ A React & Vite app for searching movies via the OMDb API and managing your favor
 
 ## Demo
 
-[Live demo](https://movie-search-app-ishwor.netlify.app/)
+[Live demo](https://movie-search-app-ishwor.netlify.app/) : https://movie-search-app-ishwor.netlify.app/
 
 
 ---
