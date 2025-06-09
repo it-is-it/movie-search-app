@@ -93,6 +93,12 @@ Movie_Website-main/
 
 ---
 
-## License
+## Notes
 
-MIT License
+- Assumptions: Used OMDb API with manual title search.
+- Challenges: Handling API error state and localStorage sync.
+- Bonus Features: Toggle to view favorites only.
+
+## Author
+
+Ishwor Timalsina
