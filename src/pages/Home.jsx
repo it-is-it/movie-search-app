@@ -1,84 +1,81 @@
-import SearchBar from "../components/SearchBar";
-import MovieList from "../components/MovieList";
-import FavoritesList from "../components/FavoritesList";
-import Spinner from "../components/Spinner";
-import { useState, useContext } from "react";
-import { FavoritesContext } from "../context/FavoritesContext";
+import React, { useState, useContext } from "react";
+import MovieCard from "../Components/MovieCard";
+import "../Components/css/Home.css";
+import { searchMovies } from "../services/api";
+import Spinner from "../Components/Spinner";
+import Error from "../Components/Error";
+import { FavoritesContext } from "../Context/FavoritesContext";
 
-const API_KEY = import.meta.env.VITE_OMDB_API_KEY;
-
-function Home() {
-  const [searchTerm, setSearchTerm] = useState("");
+const Home = () => {
+  const { favorites } = useContext(FavoritesContext);
+  const [searchQuery, setSearchQuery] = useState("");
   const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
-  const handleSearchChange = (e) => setSearchTerm(e.target.value);
-
-  const handleSearchSubmit = async (e) => {
+  async function handleSearch(e) {
     e.preventDefault();
+    if (!searchQuery.trim()) {
+      setError("Please enter a search term");
+      return;
+    }
+    if (loading) return;
+    setError(null);
     setLoading(true);
-    setError("");
     try {
-      const response = await fetch(
-        `https://www.omdbapi.com/?apikey=${API_KEY}&s=${searchTerm}`
-      );
-      const data = await response.json();
-      if (data.Response === "True") {
-        setMovies(data.Search);
+      const searchResults = await searchMovies(searchQuery);
+      if (searchResults.length > 0) {
+        setMovies(searchResults);
+        setError(null);
       } else {
         setMovies([]);
-        setError(data.Error || "No results found");
+        setError("No movies found");
       }
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      console.log(err);
+      setError("Failed to search movie...");
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
-    <div className="p-4 max-w-7xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">🎬 Movie Search & Favorites</h1>
-      <div className="flex space-x-2 mb-4">
-        <button
-          onClick={() => setShowFavoritesOnly(false)}
-          className={`px-4 py-2 rounded ${
-            !showFavoritesOnly ? "bg-blue-500 text-white" : "bg-gray-200"
-          }`}
-        >
-          Search Results
+    <div className="home">
+      <form onSubmit={handleSearch} className="search-form">
+        <input
+          type="text"
+          placeholder="Search for movies..."
+          className="search-input"
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+          }}
+        />
+        <button type="submit" className="search-button">
+          Search
         </button>
-        <button
-          onClick={() => setShowFavoritesOnly(true)}
-          className={`px-4 py-2 rounded ${
-            showFavoritesOnly ? "bg-blue-500 text-white" : "bg-gray-200"
-          }`}
-        >
-          Favorites
-        </button>
-      </div>
-      {!showFavoritesOnly && (
-        <>
-          <SearchBar
-            searchTerm={searchTerm}
-            onSearchChange={handleSearchChange}
-            onSearchSubmit={handleSearchSubmit}
-          />
-          {loading && <Spinner />}
-          {error && <p className="text-red-500">{error}</p>}
-          {movies.length > 0 && (
-            <div>
-              <h2 className="text-xl font-semibold mb-2">Search Results</h2>
-              <MovieList movies={movies} />
-            </div>
-          )}
-        </>
+      </form>
+      {loading && <Spinner />}
+      {error && !loading && <Error message={error} />}
+      {!loading && !error && (
+        <div className="movies-grid">
+          {movies.map((movie) => (
+            <MovieCard movie={movie} key={movie.imdbID} />
+          ))}
+        </div>
       )}
-      {showFavoritesOnly && <FavoritesList />}
+      {favorites.length > 0 && (
+        <div className="favorites-section mt-16">
+          <h2>Your Favorites</h2>
+          <div className="movies-grid">
+            {favorites.map((movie) => (
+              <MovieCard movie={movie} key={movie.imdbID} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default Home;
